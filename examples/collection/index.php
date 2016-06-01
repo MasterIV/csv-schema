@@ -8,10 +8,10 @@ use Iv\Csv\Schema\Collection;
 use Iv\Csv\Reader;
 
 $schema = new Record([
-	new Collection('first_names', 0, 1),
+	new Collection(0, 1, 'first_names'),
 	new Value(2, 'last_name'),
 	new Value(3, 'age'),
-	new Collection('addresses', 4, 8, new Record([
+	new Collection(4, 8, 'addresses', new Record([
 		new Value(0, 'street'),
 		new Value(1, 'nr'),
 		new Value(2, 'zip'),

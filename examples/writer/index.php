@@ -10,9 +10,9 @@ use Iv\Csv\Reader;
 use Iv\Xml\Writer;
 
 $schema = new Record([
-	new Collection('names', 0, 2),
+	new Collection(0, 2, 'names'),
 	new Value(3, 'age'),
-	new Collection('addresses', 4, 8, new Record([
+	new Collection(4, 8, 'addresses', new Record([
 		new Value(0, 'street'),
 		new Value(1, 'nr'),
 		new Value(2, 'zip'),

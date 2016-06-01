@@ -10,7 +10,7 @@ class Collection extends Node
 	/** @var Record */
 	private $record;
 
-	public function __construct($key, $start, $end, Record $record = null)
+	public function __construct($start, $end, $key = null, Record $record = null)
 	{
 		parent::__construct($key);
 		$this->start = $start;
