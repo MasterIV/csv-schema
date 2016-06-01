@@ -2,9 +2,8 @@
 
 namespace Iv\Csv\Schema;
 
-class Collection implements Node
+class Collection extends Node
 {
-	private $key;
 	private $start;
 	private $end;
 
@@ -13,7 +12,7 @@ class Collection implements Node
 
 	public function __construct($key, $start, $end, Record $record = null)
 	{
-		$this->key = $key;
+		parent::__construct($key);
 		$this->start = $start;
 		$this->end = $end;
 		$this->record = $record;
@@ -31,6 +30,6 @@ class Collection implements Node
 				else
 					$this->record->readLine(array_slice($line, $i), $result);
 
-		$parent[$this->key] = $result;
+		$this->addData($result, $parent);
 	}
 }

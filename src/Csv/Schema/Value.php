@@ -2,19 +2,18 @@
 
 namespace Iv\Csv\Schema;
 
-class Value implements Node
+class Value extends Node
 {
-	private $key;
 	private $col;
 
-	public function __construct($key, $col)
+	public function __construct($col, $key = null)
 	{
-		$this->key = $key;
+		parent::__construct($key);
 		$this->col = $col;
 	}
 
 	public function readLine($line, &$parent, $last = false)
 	{
-		$parent[$this->key] = trim( $line[$this->col] );
+		$this->addData( $line[$this->col], $parent );
 	}
 }

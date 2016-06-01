@@ -2,35 +2,32 @@
 
 namespace Iv\Csv\Schema;
 
-class Record implements Node
+class Record extends Node
 {
 	/** @var Node[] */
 	private $fields;
-	/** @var string */
-	private $key;
+	/** @var \ReflectionClass */
+	private $class;
 
-	public function __construct($fields, $key = null)
+	public function __construct($fields, $key = null, $class = null)
 	{
+		parent::__construct($key);
 		$this->fields = $fields;
-		$this->key = $key;
+
+		if(!empty( $class ))
+			$this->class = new \ReflectionClass($class);
 	}
 
-	protected function readFields($line, $fields = null) {
-		$result = array();
+	protected function readFields($line, $fields = null)
+	{
+		$result = empty($this->class) ? array() : $this->class->newInstanceWithoutConstructor();
 		$fields = $fields ?: $this->fields;
 
-		foreach( $fields as $field ) {
+		foreach ($fields as $field) {
 			$field->readLine($line, $result);
 		}
 
 		return $result;
-	}
-
-	protected function addData($data, &$parent) {
-		if(empty($this->key))
-			$parent[] = $data;
-		else
-			$parent[$this->key] = $data;
 	}
 
 	public function readLine($line, &$parent, $last = false)
@@ -40,6 +37,6 @@ class Record implements Node
 
 	public function getLength()
 	{
-		return count( $this->fields );
+		return count($this->fields);
 	}
 }

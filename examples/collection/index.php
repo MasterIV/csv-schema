@@ -9,13 +9,13 @@ use Iv\Csv\Reader;
 
 $schema = new Record([
 	new Collection('first_names', 0, 1),
-	new Value('last_name', 2),
-	new Value('age', 3),
+	new Value(2, 'last_name'),
+	new Value(3, 'age'),
 	new Collection('addresses', 4, 8, new Record([
-		new Value('street', 0),
-		new Value('nr', 1),
-		new Value('zip', 2),
-		new Value('city', 3),
+		new Value(0, 'street'),
+		new Value(1, 'nr'),
+		new Value(2, 'zip'),
+		new Value(3, 'city'),
 	])),
 ]);
 

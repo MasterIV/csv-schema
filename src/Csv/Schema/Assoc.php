@@ -2,15 +2,14 @@
 
 namespace Iv\Csv\Schema;
 
-class Assoc implements Node
+class Assoc extends Node
 {
-	private $key;
 	private $start;
 	private $end;
 
 	public function __construct($key, $start, $end)
 	{
-		$this->key = $key;
+		parent::__construct($key);
 		$this->start = $start;
 		$this->end = $end;
 	}
@@ -23,6 +22,6 @@ class Assoc implements Node
 			if( !empty( $line[$i] ))
 				$result[$line[$i]] = $line[$i+1];
 
-		$parent[$this->key] = $result;
+		$this->addData($result, $parent);
 	}
 }

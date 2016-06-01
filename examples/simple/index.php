@@ -7,13 +7,13 @@ use Iv\Csv\Schema\Value;
 use Iv\Csv\Reader;
 
 $schema = new Record([
-	new Value('first_name', 0),
-	new Value('last_name', 1),
-	new Value('age', 2),
-	new Value('street', 3),
-	new Value('nr', 4),
-	new Value('zip', 5),
-	new Value('city', 6),
+	new Value(0, 'first_name'),
+	new Value(1, 'last_name'),
+	new Value(2, 'age'),
+	new Value(3, 'street'),
+	new Value(4, 'nr'),
+	new Value(5, 'zip'),
+	new Value(6, 'city'),
 ]);
 
 $reader = new Reader();
