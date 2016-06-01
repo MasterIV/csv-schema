@@ -7,7 +7,7 @@ class Writer
 	private $keys;
 	private $out = '<?xml version="1.0" encoding="UTF-8"?>';
 
-	public function __construct($data, $keys)
+	public function __construct($data, $keys = [])
 	{
 		$this->keys = $keys;
 		$this->convertAssoc($data);
@@ -34,7 +34,7 @@ class Writer
 		if(isset($this->keys[$name]))
 			$name = $this->keys[$name];
 		else
-			$name = ucfirst($name);
+			$name = $name;
 
 		foreach($data as $v)
 			if(!empty($v))
