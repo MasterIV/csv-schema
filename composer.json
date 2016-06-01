@@ -1,0 +1,20 @@
+{
+  "name": "masteriv/csv-schema",
+  "type": "library",
+  "description": "Some simple PHP Classes to convert CSV into more complex data structures",
+  "homepage": "http://rojahn.org",
+  "license": "MIT",
+
+  "authors": [
+    {
+      "name": "Tobias Rojahn",
+      "email": "master_iv@web.de",
+      "homepage": "http://rojahn.org",
+      "role": "Developer"
+    }
+  ],
+
+  "autoload": {
+    "psr-4": {"Iv\\": "src/"}
+  }
+}
