@@ -5,18 +5,30 @@ use Iv\Csv\Schema\Node;
 
 class Reader
 {
-	public static function readFile( $filename ) {
-		/** @var Node $schema */
-		$schema = include "schema/$filename.php";
-		$fp = fopen("input/$filename.csv", "r");
+	private $separator;
+	private $skipHeadline;
+
+	/**
+	 * Reader constructor.
+	 * @param string $separator
+	 * @param bool $skipHeadline
+	 */
+	public function __construct($separator = ',', $skipHeadline = true)
+	{
+		$this->separator = $separator;
+		$this->skipHeadline = $skipHeadline;
+	}
+
+	public function readFile( $filename, Node $schema ) {
+		$fp = fopen($filename, 'r');
 
 		$lines = array();
 		$result = array();
 
-		// skip headings
-		$headings = fgetcsv($fp, 4096, "\t");
+		if($this->skipHeadline)
+			$headings = fgetcsv($fp, 4096, $this->separator);
 
-		while($line = fgetcsv($fp, 4096, "\t"))
+		while($line = fgetcsv($fp, 4096, $this->separator))
 			$lines[] = array_map('trim', $line );
 
 		fclose( $fp );
