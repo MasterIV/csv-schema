@@ -214,10 +214,13 @@ $schema = new Record([
 	])),
 ]);
 
-/* This will have the same output as the previous example */
+/* This will have nearly the same output as the previous example 
+except that the first name is an array: */
 ```
 
-
+The first to Parameters of the Collection are the start and the end column of the collection.
+If your collection consists of a record, the end column is the first column of the last record instance.
+Note that everything nested into a collection needs to start counting from column 0 again.
 
 ## And what about Objects?
 
@@ -251,6 +254,9 @@ $schema = new Record([
 	], 'address', 'Address'),
 ], null, 'User');
 ```
+
+So far properties must be public. But maybe I add some reflection magic in future 
+to also enable reading into private properties.
 
 ## Quick and dirty XML dump
 
