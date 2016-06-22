@@ -106,3 +106,89 @@ Array
 )
 */
 ```
+
+## Aggregator
+
+Seeing the previous example you might ask yourself: but how do I handle it when a user has multiple addresses?
+Basically there are two possibilities. One is using an Aggregator.
+The Aggregator will turn multiple lines of your csv in one single element in your result array.
+Therefor you have to provide two lists of nodes. The ones that are duplicated on each line and the ones that differ.
+Additional you need to specify a key in which the differing elements should bes stored.
+But let's see an example for better understanding:
+
+```csv
+First,Last,Age,Street,Nr,Zip,City
+Tim,Meier,22,Main Street,1,1337,Berlin
+Max,Mustermann,69,Some Road,2,21854,London
+Max,Mustermann,69,Ligusterweg,3,54641,New York
+```
+
+```php
+$schema = new Aggregator([
+	new Value(0, 'first_name'),
+	new Value(1, 'last_name'),
+	new Value(2, 'age'),
+], 'addresses', new Record([
+	new Value(3, 'street'),
+	new Value(4, 'nr'),
+	new Value(5, 'zip'),
+	new Value(6, 'city'),
+]));
+
+/* Will output:
+Array
+(
+    [0] => Array
+        (
+            [first_name] => Tim
+            [last_name] => Meier
+            [age] => 22
+            [addresses] => Array
+                (
+                    [0] => Array
+                        (
+                            [street] => Main Street
+                            [nr] => 1
+                            [zip] => 1337
+                            [city] => Berlin
+                        )
+                )
+        )
+
+    [1] => Array
+        (
+            [first_name] => Max
+            [last_name] => Mustermann
+            [age] => 69
+            [addresses] => Array
+                (
+                    [0] => Array
+                        (
+                            [street] => Some Road
+                            [nr] => 2
+                            [zip] => 21854
+                            [city] => London
+                        )
+
+                    [1] => Array
+                        (
+                            [street] => Ligusterweg
+                            [nr] => 3
+                            [zip] => 54641
+                            [city] => New York
+                        )
+                )
+        )
+)
+*/
+```
+
+This works a bit like:
+```sql
+SELECT * FROM users GROUP BY first_name, last_name, age;
+```
+with the difference that the non grouped columns are listed in a sub-array that is stored in the given key.
+
+## Collection
+
+
