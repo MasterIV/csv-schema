@@ -191,4 +191,75 @@ with the difference that the non grouped columns are listed in a sub-array that 
 
 ## Collection
 
+But as I already said in the previous chapter, there is more than one way to handle our "multiple address problem".
+If you don't wand to repeat yourself each line you can store all the data in online instead of aggregating it.
+This would look like in the following example:
 
+```csv
+First,Middle,Last,Age,Street,Nr,Zip,City,street,nr,zip,city
+Tim,,Meier,22,Main Street,1,1337,Berlin,,,,
+Max,Heinz,Mustermann,69,Some Road,2,21854,London,Ligusterweg,3,54641,New York
+```
+
+```php
+$schema = new Record([
+	new Collection(0, 1, 'first_names'),
+	new Value(2, 'last_name'),
+	new Value(3, 'age'),
+	new Collection(4, 8, 'addresses', new Record([
+		new Value(0, 'street'),
+		new Value(1, 'nr'),
+		new Value(2, 'zip'),
+		new Value(3, 'city'),
+	])),
+]);
+
+/* This will have the same output as the previous example */
+```
+
+
+
+## And what about Objects?
+
+The Record and the Aggregator also allow you to specify a classname.
+If the classname is given thy weill create an object of this class instead of an array.
+
+```php
+class User {
+	public $firstName;
+	public $lastName;
+	public $age;
+	public $address;
+}
+
+class Address {
+	public $street;
+	public $nr;
+	public $zip;
+	public $city;
+}
+
+$schema = new Record([
+	new Value(0, 'firstName'),
+	new Value(1, 'lastName'),
+	new Value(2, 'age'),
+	new Record([
+		new Value(3, 'street'),
+		new Value(4, 'nr'),
+		new Value(5, 'zip'),
+		new Value(6, 'city'),
+	], 'address', 'Address'),
+], null, 'User');
+```
+
+## Quick and dirty XML dump
+
+As the headline already says, this is quick and "dirty". There is a little XML dumper included in this project.
+You can use it to output your data quickly in xml. Of course you can also use any other proper xml solution that
+can turn an array into XML. The Writer will only work with arrays not with objects.
+
+```php
+$mapping = ['addresse' => 'address'];
+$writer = new Writer(['users' => $reader->readFile('data.csv', $schema)], $mapping);
+echo $writer->get();
+```
